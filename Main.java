@@ -6,26 +6,26 @@ import java.util.Set;
 
 public class Main {
 
-   public static int[] map=new int[100];//карта на 100 ячеек
+   public static int[][] map=new int[100][100];//карта на 100 ячеек
 
 
     public static void main(String[] args) {
     Ships Ship1=new Ships();
     Scanner in=new Scanner(System.in);
-    System.out.println("Enter the cordinates of the Ship's tail");
-    Ship1.SetCoord(in.nextInt());//    //Ввод координат хвоста
+    System.out.println("Enter the vertical and the horisontal cordinates of the Ship's tail");
+    Ship1.SetCoord(in.nextInt(),in.nextInt());//    //Ввод координат хвоста/////////////не уверен
     System.out.println("Enter the size of the ship");
     Ship1.SetSize(in.nextInt());//Ввод размера корабля
     int record=0;
-//	int[] locOfShip=new int[sizeOfShip];
 
 	Ship1.SetLoc();
 
 	while(!(Ship1.G())){//пока игра не закончена
 	    record++;
-	    System.out.println("Shoot:  ");//ввод выстрела
-	    int myShot=in.nextInt();
-	    Ship1.IsDead(myShot);
+	    System.out.println("Horisontal and Vertical Shoot:  ");//ввод выстрела///////
+	    int myShotHor=in.nextInt();/////////
+        int myShotVer=in.nextInt();
+	    Ship1.IsDead(myShotHor,myShotVer);
 
     }
     System.out.println("Your record is "+record);
@@ -34,14 +34,15 @@ public class Main {
 
     public static class Ships{
         private int size=0;//размер корабля
-        private int coordOftile=0;//координаты хвоста корабля|||  пока нет //(куда он будет направлен(8-север. 2-юг. 6-западю 4-восток))
+        private int coordOftileHor=0;//координаты хвоста корабля Горизонталь|||  пока нет //(куда он будет направлен(8-север. 2-юг. 6-западю 4-восток))
+        private int coordOftileVer=0;//Вертикаль
         private String checkYouSelf; //состояние корабля
         private int DeadShoots=0;
         private boolean GameIsOver=false;
 
         public void SetLoc(){
-            for(int i=coordOftile; i<coordOftile+size;i++){
-                map[i]=1;//ячейки где есть корабль==1
+            for(int i=coordOftileHor; i<coordOftileHor+size;i++){
+                map[coordOftileVer][i]=1;//ячейки где есть корабль==1
             }
         }
 
@@ -51,8 +52,8 @@ public class Main {
         }
 
 
-        public void IsDead(int Shot){
-            if(map[Shot]==1){//Если в ячейке есть корабль
+        public void IsDead(int ShotVer,int ShotHor){
+            if(map[ShotVer][ShotHor]==1){//Если в ячейке есть корабль
                 DeadShoots++;
                 if(DeadShoots==size) {//Если кол-во попадпний == размеру корабля
                     SetCheck("Убил");
@@ -69,8 +70,9 @@ public class Main {
             size=sz;
         }
 
-        public void SetCoord(int co){
-            coordOftile=co;
+        public void SetCoord(int coVer,int coHor){
+            coordOftileHor=coHor;
+            coordOftileVer=coVer;
         }
 
         public boolean G(){
