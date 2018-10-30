@@ -13,7 +13,7 @@ public class Main {
     Ships Ship1=new Ships();
     Scanner in=new Scanner(System.in);
     System.out.println("Enter the vertical and the horisontal cordinates of the Ship's tail");
-    Ship1.SetCoord(in.nextInt(),in.nextInt());//    //Ввод координат хвоста/////////////не уверен
+    Ship1.SetCoord(in.nextInt(),in.nextInt());//    //Ввод координат хвоста/////////////направление только на запад.
     System.out.println("Enter the size of the ship");
     Ship1.SetSize(in.nextInt());//Ввод размера корабля
     int record=0;
@@ -53,17 +53,26 @@ public class Main {
 
 
         public void IsDead(int ShotVer,int ShotHor){
-            if(map[ShotVer][ShotHor]==1){//Если в ячейке есть корабль
-                DeadShoots++;
-                if(DeadShoots==size) {//Если кол-во попадпний == размеру корабля
-                    SetCheck("Убил");
-                    GameIsOver = true;
-                }
-                else
-                    SetCheck("Попал");
+            if (map[ShotVer][ShotHor] == 2) {//Если ты сюда уже стрелял
+            System.out.println("Ты уже сюда стрелял. Поэтому МИМО");
             }
-            else
-                SetCheck("Мимо");
+            else {
+                if (map[ShotVer][ShotHor] == 1) {//Если в ячейке есть корабль
+
+                    DeadShoots++;
+
+
+                    if (DeadShoots == size) {//Если кол-во попадпний == размеру корабля
+                        SetCheck("Убил");
+                        GameIsOver = true;
+                    } else
+                        SetCheck("Попал");
+
+                    map[ShotVer][ShotHor] = 2;//место куда ты уже попал отмечено 2
+                } else
+                    SetCheck("Мимо");
+            }
+
         }
 
         public void SetSize(int sz){
